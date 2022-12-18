@@ -49,10 +49,10 @@ As it is mentioned in the beginning, the primary goal of the transporter interfa
     At the end of every Heavy HTTP communication flow, this method is triggered. The termination code is can be utilized to identify the exact flow. 
     
     **Termination Codes**\
-    a. download-end: Heavy HTTP client has received the response data\
-    b. send-abort: Heavy HTTP client has aborted the request uploading process\
-    c. download-abort: Heavy HTTP client has aborted the response downloading process\
-    d. send-error: Heavy HTTP client has failed to upload the requested data
+    a. download-end: Heavy HTTP client has received the response data.\
+    b. send-abort: Heavy HTTP client has aborted the request uploading process.\
+    c. download-abort: Heavy HTTP client has aborted the response downloading process.\
+    d. send-error: Heavy HTTP client has failed to upload the requested data.
 
     The default expectation of the method is to delete the content from the storage layer (if exists) when this method is invoked.
 
