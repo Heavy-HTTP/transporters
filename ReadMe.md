@@ -14,7 +14,7 @@ Transporter is the interface that hooks the storage mechanism with the Heavy HTT
 
  The generic transporter interface is always common across all the languages/run-times. Based on the language the syntax is varied. Please refer to the related run-time/language Heavy HTTP Server connectors to learn the exact method signatures of the interface. 
 
-	```
+	
     interface PayloadResponse {
         contentLength: string,
         contentType: string,
@@ -29,11 +29,11 @@ Transporter is the interface that hooks the storage mechanism with the Heavy HTT
         handleHeavyResponseBody: (id: string, content: Buffer, contentType: string | null) => String,
     }
 
-	```
+	
 
 ## Default Implementation of Transporter Interface 
 
-As it is mentioned in the beginning, the primary goal of the transporter interface is to hook the storage layer with the Heavy HTTP Server connector. Hence a default implementation of Transporter interface must fulfill that requirement. An example of a S3-Node-default-transporter can be found here.
+As it is mentioned in the beginning, the primary goal of the transporter interface is to hook the storage layer with the Heavy HTTP Server connector. Hence a default implementation of Transporter interface must fulfill that requirement. Please refer to [S3-Node-default-transporter](https://github.com/Heavy-HTTP/transporters/blob/main/S3/S3-Node-default-transporter.js) for an example implementation.
 
 
 1. **`generateUploadURL: (id: string) => String`**\
@@ -59,7 +59,7 @@ As it is mentioned in the beginning, the primary goal of the transporter interfa
 
 ## Advance Implementation of Transporter Interface 
 
-In addition to the primary objective, the Transporter interface can be utilized to control the heavy requests and responses as well. This is just a guideline for an advanced implementation of the Transporter interface. An example of a S3-Node-advance-transporter can be found here.
+In addition to the primary objective, the Transporter interface can be utilized to control the heavy requests and responses as well. This is just a guideline for an advanced implementation of the Transporter interface. Please refer to [S3-Node-advance-transporter](https://github.com/Heavy-HTTP/transporters/blob/main/S3/S3-Node-advance-transporter.js) for an example implementation.
 
 1. **`generateUploadURL: (id: string) => String`**\
     Similar to the default implementation.
@@ -73,7 +73,7 @@ In addition to the primary objective, the Transporter interface can be utilized 
     ```
     The request is too heavy to process synchronously. Hence the request is shifted to asynchronous execution and the with the modified request body the shifting is informed to the server endpoint that is waiting for the request. (The server endpoint should have the knowledge of ``` isAsync:true```)
 
-3. **`handleHeavyResponseBody: (id: string, content: Buffer, contentType: string | null) => String`**\
+3. **`handleHeavyResponseBody: (id: string, content: Buffer, contentType: string | null) => String`**
 
     Since the response is too large to send back, rather than sending everything, upload a summarized version of it to the storage layer and shared the signed URL of it. 
 
