@@ -1,16 +1,6 @@
 const presigner = require('@aws-sdk/s3-request-presigner');
 const S3 = require("@aws-sdk/client-s3");
 
-function stream2buffer(stream) {
-
-    return new Promise((resolve, reject) => {
-        const _buf = [];
-        stream.on("data", (chunk) => { _buf.push(chunk); _buf.push() });
-        stream.on("end", () => resolve(Buffer.concat(_buf)));
-        stream.on("error", (err) => reject(err));
-    });
-}
-
 function S3Transporter(bucketName, expirationTime) {
 
     const client = new S3.S3Client({
@@ -39,15 +29,12 @@ function S3Transporter(bucketName, expirationTime) {
     }
 
     const injectHeavyRequestBody = async (id) => {
-        const downloadObjectCommand = new S3.GetObjectCommand({
-            Bucket: bucketName,
-            Key: id
-        });
-
-        const item = await client.send(downloadObjectCommand);
-        const bufferedData = await stream2buffer(item.Body);
-        await terminate(id, 'request-completed')
-        return { content: bufferedData, contentLength: item.Body.headers['content-length'], contentType: item.Body.headers['content-type'] };
+        
+        // -- Invoke an async lambda function that process the request body in the S3 bucket
+        // await invokeLambda(id);
+        // modify the request body as {'isAsync':'true'}
+        const bufferedData = Buffer.from(JSON.stringify({'isAsync':'true'}));
+        return { content: bufferedData, contentLength: bufferedData.byteLength, contentType: 'application/json' };
     }
 
     const handleHeavyResponseBody = async (id, content, contentType) => {

@@ -76,3 +76,7 @@ In addition to the primary objective, the Transporter interface can be utilized 
 
 4. **`terminate: (id: string, terminationCode:string) => void`**\
     Similar to the default implementation.
+
+
+## Transporter Security
+The developer is solely responsible for the security of the storage and the transporter implementation. Heavy HTTP doesn't provide any guidelines for the security aspects of the Transporter or the storage layer. The Heavy HTTP protocol is designed to remove the temporary request and response data as soon as the communication is completed. But there can be rare occurrences that the data would not be removedfrom the storage layers (due to request failures). Hence it is advised to perform periodic clean-ups in the storage layer. 
